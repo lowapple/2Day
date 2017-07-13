@@ -1,29 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class PlayerAttackController : MonoBehaviour {
+public class PlayerAttackController : NetworkBehaviour {
 
 	public Animator playerAnimator;
+	public PlayerArmController playerArmController;
+	public PlayerState playerState;
 
-	// Use this for initialization
-	void Start () {
-		
+	void Awake()
+	{
+		playerState = GetComponent<PlayerState>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update() {
 		if(Input.GetMouseButtonDown(0)){
-			playerAnimator.SetTrigger("Attack");
-			playerAnimator.SetFloat("AttackCount", 0.0f);
+			if(!playerState.isNetwork){
+				playerAnimator.SetTrigger("Attack");
+				playerAnimator.SetFloat("AttackCount", 0.0f);
+			}
+			else
+			{
+				playerArmController.Attack();
+			}
 		}
-		if(Input.GetMouseButtonDown(1)){
-			Debug.Log("Right");
-		}		
-	}
-
-	void FixedUpdate()
-	{
-
 	}
 }
