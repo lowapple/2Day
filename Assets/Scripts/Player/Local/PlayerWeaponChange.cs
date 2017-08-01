@@ -5,8 +5,10 @@ using UnityEngine;
 public class PlayerWeaponChange : MonoBehaviour {
 	public PlayerWeapon[] weapons;
 	public int playerWeaponNum = -1;
+	private bl_PlayerAnimator playerAnimator;
 
 	void Start(){
+		playerAnimator = GetComponent<bl_PlayerAnimator> ();
 		WeaponHide ();
 	}
 
@@ -14,6 +16,7 @@ public class PlayerWeaponChange : MonoBehaviour {
 		if (playerWeaponNum != 0) {
 			WeaponHide ();
 			weapons [playerWeaponNum].weapon.SetActive (true);
+			playerAnimator.m_PlayerWeaponState = weapons [playerWeaponNum].weaponState;
 		} else {
 			WeaponHide ();
 		}

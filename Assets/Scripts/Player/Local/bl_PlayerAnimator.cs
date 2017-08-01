@@ -13,7 +13,7 @@ public class bl_PlayerAnimator : MonoBehaviour
 {
 
     public PlayerState m_PlayerState = PlayerState.Stand;
-	public PlayerAttackState m_PlayerAttackState = PlayerAttackState.Idle;
+	public PlayerWeaponState m_PlayerWeaponState = PlayerWeaponState.Meal;
 
     [Separator("Animator")]
     public Animator Anim;
@@ -146,9 +146,9 @@ public class bl_PlayerAnimator : MonoBehaviour
 	void AnimeAttack(){
 		if (isAttack) {
 			isAttack = false;
-			if (m_PlayerAttackState == PlayerAttackState.MealAttack) {
+			if (m_PlayerWeaponState == PlayerWeaponState.Meal) {
 				Anim.SetTrigger ("Attack1");
-			} else if (m_PlayerAttackState == PlayerAttackState.GunAttack)
+			} else if (m_PlayerWeaponState == PlayerWeaponState.Gun)
 				Anim.SetTrigger ("Attack2");
 		}
 	}

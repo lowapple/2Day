@@ -108,6 +108,8 @@ public class bl_PlayerSync : bl_PhotonHelper
             stream.SendNext(Controller.grounded);
             stream.SendNext(Controller.vel);
 			stream.SendNext (weaponController.playerWeaponNum);
+			stream.SendNext (attackController.isAttack);
+			stream.SendNext (attackController.isAim);
         }
         else
         {
@@ -116,10 +118,12 @@ public class bl_PlayerSync : bl_PhotonHelper
             HeadPos = (Vector3)stream.ReceiveNext();
             HeadRot = (Quaternion)stream.ReceiveNext();
             m_state = (PlayerState)stream.ReceiveNext();
-			m_attackState = (PlayerAttackState)stream.ReceiveNext ();
+			m_playerWeaponState = (PlayerWeaponState)stream.ReceiveNext ();
             m_grounded = (bool)stream.ReceiveNext();
             NetVel = (Vector3)stream.ReceiveNext();
 			weaponNum = (int)stream.ReceiveNext ();
+			isAttack = (bool)stream.ReceiveNext ();
+			isAim = (bool)stream.ReceiveNext ();
             //
             m_ReceivedNetworkUpdate = true;
         }
@@ -128,11 +132,13 @@ public class bl_PlayerSync : bl_PhotonHelper
     private Vector3 HeadPos = Vector3.zero;// Head Look to
     private Quaternion HeadRot = Quaternion.identity;
     private PlayerState m_state;
-	private PlayerAttackState m_attackState;
+	private PlayerWeaponState m_playerWeaponState;
     private bool m_grounded;
     private string RemotePlayerName = string.Empty;
     private int weaponNum;
     private Vector3 NetVel;
+	private bool isAttack = false;
+	private bool isAim = false;
 
     /// <summary>
     /// 
@@ -153,11 +159,14 @@ public class bl_PlayerSync : bl_PhotonHelper
         this.HeatTarget.position = Vector3.Lerp(this.HeatTarget.position, HeadPos, Time.deltaTime * this.SmoothingDelay);
         this.HeatTarget.rotation = HeadRot;
         m_PlayerAnimation.m_PlayerState = m_state;//send the state of player local for remote animation*/
-		m_PlayerAnimation.m_PlayerAttackState = m_attackState;
+		m_PlayerAnimation.m_PlayerWeaponState = m_playerWeaponState;
         m_PlayerAnimation.grounded = m_grounded;
         m_PlayerAnimation.velocity = NetVel;
 		// Player Weapon Change
 		weaponChange.playerWeaponNum = weaponNum;
+
+		m_PlayerAnimation.isAttack = isAttack;
+		m_PlayerAnimation.isAim = isAim;
 
         if (this.gameObject.name != RemotePlayerName)
         {

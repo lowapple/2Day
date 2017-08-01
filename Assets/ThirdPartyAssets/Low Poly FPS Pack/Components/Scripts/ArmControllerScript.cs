@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class ArmControllerScript : MonoBehaviour {
+	
 	Animator anim;
 	
 	bool isReloading;
