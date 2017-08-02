@@ -2,24 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponManager : MonoBehaviour {
-	private static WeaponManager instance;
-	public static WeaponManager GetInstance {
-		get {
-			return instance;
-		}
-	}
+public class PlayerWeaponManager : MonoBehaviour {
 	public PlayerWeapon[] playerWeapon;	
-
-
-	void Awake(){
-		if (instance == null)
-			instance = this;
-	}
+	public GameObject localWeaponParent;
 
 	void Start(){
 		for (int i = 0; i < playerWeapon.Length; i++)
-			playerWeapon [i].localWeapon = Instantiate (playerWeapon [i].prefab, transform);
+			playerWeapon [i].localWeapon = Instantiate (playerWeapon [i].prefab, localWeaponParent.transform);
 	}
 
 	public PlayerWeapon GetWeapon(string weaponName){

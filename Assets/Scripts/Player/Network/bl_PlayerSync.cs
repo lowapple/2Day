@@ -96,6 +96,14 @@ public class bl_PlayerSync : bl_PhotonHelper
 			}
 			else
 				stream.SendNext (false);
+
+			for (int i = 0; i < 3; i++) {
+				stream.SendNext (i);
+				if (weaponChange.weapons [i] != null)
+					stream.SendNext (weaponChange.weapons [i].weaponName);
+				else
+					stream.SendNext ("null");
+			}
         }
         else
         {
@@ -110,11 +118,15 @@ public class bl_PlayerSync : bl_PhotonHelper
 			weaponNum = (int)stream.ReceiveNext ();
 
 			isAttack = (bool)stream.ReceiveNext ();
-			if (isAttack) {
-				Debug.Log ("IsAttack");
+			if (isAttack)
 				m_PlayerAnimation.AnimationAttack ();
+
+			for (int i = 0; i < 3; i++) {
+				int idx = (int)stream.ReceiveNext();
+				string idxName = (string)stream.ReceiveNext ();
+				weaponChange.LocalWeaponChange (idx, idxName);
 			}
-            //
+
             m_ReceivedNetworkUpdate = true;
         }
     }
