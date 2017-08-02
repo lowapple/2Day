@@ -15,13 +15,10 @@ public class bl_PlayerSync : bl_PhotonHelper
     public Transform HeatTarget;
     public float SmoothingDelay = 8f;
 
-
     [SerializeField]
     PhotonTransformViewPositionModel m_PositionModel = new PhotonTransformViewPositionModel();
-
     [SerializeField]
     PhotonTransformViewRotationModel m_RotationModel = new PhotonTransformViewRotationModel();
-
     [SerializeField]
     PhotonTransformViewScaleModel m_ScaleModel = new PhotonTransformViewScaleModel();
 
@@ -31,18 +28,13 @@ public class bl_PlayerSync : bl_PhotonHelper
 
     bool m_ReceivedNetworkUpdate = false;
     [Space(5)]
-   //Script Needed
     [Header("Necessary script")]
     public bl_PlayerAnimator m_PlayerAnimation;
 
-//private
-    private bl_PlayerMovement Controller;
-
+	private bl_PlayerMovement Controller;
 	private PlayerWeaponChange weaponChange;
 	private PlayerWeaponController weaponController;
-
 	private PlayerAttackController attackController;
-
     private GameObject CurrenGun;
 
 #pragma warning disable 0414
@@ -78,7 +70,6 @@ public class bl_PlayerSync : bl_PhotonHelper
     /// <param name="info"></param>
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-
         m_PositionControl.OnPhotonSerializeView(transform.position, stream, info);
         m_RotationControl.OnPhotonSerializeView(transform.rotation, stream, info);
         m_ScaleControl.OnPhotonSerializeView(transform.localScale, stream, info);
@@ -96,9 +87,15 @@ public class bl_PlayerSync : bl_PhotonHelper
 			stream.SendNext (Controller.m_PlayerAttackState);
             stream.SendNext(Controller.grounded);
             stream.SendNext(Controller.vel);
+
 			stream.SendNext (weaponController.playerWeaponNum);
-			stream.SendNext (attackController.isAttack);
-			stream.SendNext (attackController.isAim);
+
+			if (attackController.isAttack) {
+				attackController.isAttack = false;
+				stream.SendNext (true);
+			}
+			else
+				stream.SendNext (false);
         }
         else
         {
@@ -111,8 +108,12 @@ public class bl_PlayerSync : bl_PhotonHelper
             m_grounded = (bool)stream.ReceiveNext();
             NetVel = (Vector3)stream.ReceiveNext();
 			weaponNum = (int)stream.ReceiveNext ();
+
 			isAttack = (bool)stream.ReceiveNext ();
-			isAim = (bool)stream.ReceiveNext ();
+			if (isAttack) {
+				Debug.Log ("IsAttack");
+				m_PlayerAnimation.AnimationAttack ();
+			}
             //
             m_ReceivedNetworkUpdate = true;
         }
@@ -127,7 +128,6 @@ public class bl_PlayerSync : bl_PhotonHelper
     private int weaponNum;
     private Vector3 NetVel;
 	private bool isAttack = false;
-	private bool isAim = false;
 
     /// <summary>
     /// 
@@ -151,17 +151,11 @@ public class bl_PlayerSync : bl_PhotonHelper
 		m_PlayerAnimation.m_PlayerWeaponState = m_playerWeaponState;
         m_PlayerAnimation.grounded = m_grounded;
         m_PlayerAnimation.velocity = NetVel;
-		// Player Weapon Change
+
 		weaponChange.playerWeaponNum = weaponNum;
 
-		m_PlayerAnimation.isAttack = isAttack;
-		m_PlayerAnimation.isAim = isAim;
-
         if (this.gameObject.name != RemotePlayerName)
-        {
             gameObject.name = RemotePlayerName;
-        }
-
     }
 
     /// <summary>

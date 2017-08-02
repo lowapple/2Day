@@ -30,10 +30,6 @@ public class bl_PlayerAnimator : MonoBehaviour
     public float effect = 1;
     public bool overrideAnimation = false;
 
-	// Player Attack
-	public bool isAttack = false;
-	public bool isAim = false;
-
     [Space(5)]
     public bl_PlayerMovement PlayerController;
 
@@ -120,7 +116,6 @@ public class bl_PlayerAnimator : MonoBehaviour
 		AnimeRun ();
 		AnimeJump ();
 		AnimeCrouch ();
-		AnimeAttack ();
     }
 	void AnimeRun(){
 		Anim.SetFloat("Speed",m_PlayerSpeed,SpeedDampTime,Time.deltaTime);
@@ -143,14 +138,8 @@ public class bl_PlayerAnimator : MonoBehaviour
 	}
 
 	// Player Attack Animation
-	void AnimeAttack(){
-		if (isAttack) {
-			isAttack = false;
-			if (m_PlayerWeaponState == PlayerWeaponState.Meal) {
-				Anim.SetTrigger ("Attack1");
-			} else if (m_PlayerWeaponState == PlayerWeaponState.Gun)
-				Anim.SetTrigger ("Attack2");
-		}
+	public void AnimationAttack(){
+		Anim.SetTrigger ("Attack1");
 	}
 
     /// <summary>
