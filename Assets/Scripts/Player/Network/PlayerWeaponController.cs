@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class PlayerWeaponController : bl_PhotonHelper {
 	public int playerWeaponNum = -1;
+	private PlayerWeaponChange playerWeaponChange;
 
 	void Start(){
-		if (!isMine)
-		{
+		if (!isMine) {
 			this.enabled = false;
+		} else {
+			playerWeaponChange = GetComponent<PlayerWeaponChange> ();
 		}
 	}
 
@@ -22,5 +24,8 @@ public class PlayerWeaponController : bl_PhotonHelper {
 		else if(Input.GetKeyDown(KeyCode.Alpha3)){
 			playerWeaponNum = 2;
 		}
+
+		if (playerWeaponChange != null)
+			playerWeaponChange.playerWeaponNum = playerWeaponNum;
 	}
 }

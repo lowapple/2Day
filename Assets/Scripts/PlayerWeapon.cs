@@ -5,6 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerWeapon {
 	public PlayerWeaponState weaponState;
-	public string name;
-	public GameObject weapon;
+	public string weaponName;
+
+	public GameObject prefab;
+	public GameObject localWeapon;
+	public GameObject networkWeapon;
 }

@@ -15,16 +15,18 @@ public class PlayerAttackController : bl_PhotonHelper {
 	
 	// Update is called once per frame
 	void Update () {
-		// one click
-		if (Input.GetMouseButtonDown (0)) {
-			isAttack = true;
-		} else
-			isAttack = false;
+		if (!isAttack) {
+			// one click
+			if (Input.GetMouseButtonDown (0)) {
+				isAttack = true;
+			}
+		}
 
-		// long click
-		if (Input.GetMouseButton (1)) {
-			isAim = true;
-		} else
-			isAim = false;
+		if (!isAim) {
+			// long click
+			if (Input.GetMouseButton (1)) {
+				isAim = true;
+			}
+		}
 	}
 }

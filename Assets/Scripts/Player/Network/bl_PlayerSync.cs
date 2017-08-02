@@ -9,22 +9,10 @@ using UnityEngine;
 [RequireComponent(typeof(PhotonView))]
 public class bl_PlayerSync : bl_PhotonHelper
 {
-    /// <summary>
-    /// the player's team is not ours
-    /// </summary>
     [HideInInspector]
     public string RemoteTeam;
-    /// <summary>
-    /// the current state of the current weapon
-    /// </summary>
     public string WeaponState;
-    /// <summary>
-    /// the object to which the player looked
-    /// </summary>
     public Transform HeatTarget;
-    /// <summary>
-    /// smooth interpolation amount
-    /// </summary>
     public float SmoothingDelay = 8f;
 
 
@@ -52,6 +40,7 @@ public class bl_PlayerSync : bl_PhotonHelper
 
 	private PlayerWeaponChange weaponChange;
 	private PlayerWeaponController weaponController;
+
 	private PlayerAttackController attackController;
 
     private GameObject CurrenGun;

@@ -273,8 +273,6 @@ public class bl_PlayerMovement : bl_PhotonHelper {
                         jumpTimer++;
                     }
                 }
-
-				AttackControl ();
             }
             else
             {
@@ -363,17 +361,6 @@ public class bl_PlayerMovement : bl_PhotonHelper {
             }
         }
     }
-
-	// Player Attack
-	// Player Attack Test -> Animation
-
-	void AttackControl(){
-		if(Input.GetMouseButtonDown(0)){
-			m_PlayerAttackState = PlayerAttackState.MealAttack;
-			Debug.Log (m_PlayerAttackState);
-		}	
-	}
-
 
     /// <summary>
     /// Player Control / Boost Movement when is super jump

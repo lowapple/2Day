@@ -6,8 +6,4 @@ public enum PlayerState
     Crouch = 1,
     Jump = 2,
     SuperJump = 3,
-
-	// Player Attack
-	MealAttack = 4,
-	GunAttack = 5
 }
