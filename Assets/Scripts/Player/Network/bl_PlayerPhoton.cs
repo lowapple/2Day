@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class bl_PlayerPhoton : bl_PhotonHelper {
+public class bl_PlayerPhoton : UnitPhoton {
 
     [Header("when the player is our disable these scripts")]
     public List<MonoBehaviour> Local_DisabledScripts = new List<MonoBehaviour>();
@@ -31,7 +31,7 @@ public class bl_PlayerPhoton : bl_PhotonHelper {
 #endif
         if (isMine)
         {
-            LocalPlayer();
+            LocalPlayer(PlayerTag, Local_DisabledScripts, Local_DesactiveObjects);
         }
         else
         {
@@ -52,33 +52,5 @@ public class bl_PlayerPhoton : bl_PhotonHelper {
             obj.SetActive(false);
         }
         this.gameObject.tag = RemoteTag;
-
-    }
-    /// <summary>
-    /// We call this function only if we are Local player
-    /// </summary>
-    public void LocalPlayer()
-    {
-        gameObject.name = PhotonNetwork.playerName;
-        foreach (MonoBehaviour script in Local_DisabledScripts)
-        {
-            Destroy(script);
-        }
-        foreach (GameObject obj in Local_DesactiveObjects)
-        {
-            obj.SetActive(false);
-        }
-        this.gameObject.tag = PlayerTag;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public bool isLocalPlayer
-    {
-        get
-        {
-            return isMine;
-        }
     }
 }

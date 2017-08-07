@@ -31,10 +31,10 @@ public class bl_PlayerSync : bl_PhotonHelper
     [Header("Necessary script")]
     public bl_PlayerAnimator m_PlayerAnimation;
 
-	private bl_PlayerMovement Controller;
-	private PlayerWeaponChange weaponChange;
-	private PlayerWeaponController weaponController;
-	private PlayerAttackController attackController;
+    private bl_PlayerMovement Controller;
+    private PlayerWeaponChange weaponChange;
+    private PlayerWeaponController weaponController;
+    private PlayerAttackController attackController;
     private GameObject CurrenGun;
 
 #pragma warning disable 0414
@@ -42,7 +42,7 @@ public class bl_PlayerSync : bl_PhotonHelper
     bool ObservedComponentsFoldoutOpen = true;
 #pragma warning disable 0414
 
-     void Awake()
+    void Awake()
     {
         if (!PhotonNetwork.connected)
             Destroy(this);
@@ -59,15 +59,11 @@ public class bl_PlayerSync : bl_PhotonHelper
         m_RotationControl = new PhotonTransformViewRotationControl(m_RotationModel);
         m_ScaleControl = new PhotonTransformViewScaleControl(m_ScaleModel);
         Controller = this.GetComponent<bl_PlayerMovement>();
-		weaponController = this.GetComponent<PlayerWeaponController> ();
-		weaponChange = this.GetComponent<PlayerWeaponChange> ();
-		attackController = this.GetComponent<PlayerAttackController> ();
+        weaponController = this.GetComponent<PlayerWeaponController>();
+        weaponChange = this.GetComponent<PlayerWeaponChange>();
+        attackController = this.GetComponent<PlayerAttackController>();
     }
-    /// <summary>
-    /// serialization method of photon
-    /// </summary>
-    /// <param name="stream"></param>
-    /// <param name="info"></param>
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         m_PositionControl.OnPhotonSerializeView(transform.position, stream, info);
@@ -84,26 +80,28 @@ public class bl_PlayerSync : bl_PhotonHelper
             stream.SendNext(HeatTarget.position);
             stream.SendNext(HeatTarget.rotation);
             stream.SendNext(Controller.m_PlayerState);
-			stream.SendNext (Controller.m_PlayerAttackState);
+            stream.SendNext(Controller.m_PlayerAttackState);
             stream.SendNext(Controller.grounded);
             stream.SendNext(Controller.vel);
 
-			stream.SendNext (weaponController.playerWeaponNum);
+            stream.SendNext(weaponController.playerWeaponNum);
 
-			if (attackController.isAttack) {
-				attackController.isAttack = false;
-				stream.SendNext (true);
-			}
-			else
-				stream.SendNext (false);
+            if (attackController.isAttack)
+            {
+                attackController.isAttack = false;
+                stream.SendNext(true);
+            }
+            else
+                stream.SendNext(false);
 
-			for (int i = 0; i < 3; i++) {
-				stream.SendNext (i);
-				if (weaponChange.weapons [i] != null)
-					stream.SendNext (weaponChange.weapons [i].weaponName);
-				else
-					stream.SendNext ("null");
-			}
+            for (int i = 0; i < 3; i++)
+            {
+                stream.SendNext(i);
+                if (weaponChange.weapons[i] != null)
+                    stream.SendNext(weaponChange.weapons[i].weaponName);
+                else
+                    stream.SendNext("null");
+            }
         }
         else
         {
@@ -112,20 +110,21 @@ public class bl_PlayerSync : bl_PhotonHelper
             HeadPos = (Vector3)stream.ReceiveNext();
             HeadRot = (Quaternion)stream.ReceiveNext();
             m_state = (PlayerState)stream.ReceiveNext();
-			m_playerWeaponState = (PlayerWeaponState)stream.ReceiveNext ();
+            m_playerWeaponState = (PlayerWeaponState)stream.ReceiveNext();
             m_grounded = (bool)stream.ReceiveNext();
             NetVel = (Vector3)stream.ReceiveNext();
-			weaponNum = (int)stream.ReceiveNext ();
+            weaponNum = (int)stream.ReceiveNext();
 
-			isAttack = (bool)stream.ReceiveNext ();
-			if (isAttack)
-				m_PlayerAnimation.AnimationAttack ();
+            isAttack = (bool)stream.ReceiveNext();
+            if (isAttack)
+                m_PlayerAnimation.AnimationAttack();
 
-			for (int i = 0; i < 3; i++) {
-				int idx = (int)stream.ReceiveNext();
-				string idxName = (string)stream.ReceiveNext ();
-				weaponChange.LocalWeaponChange (idx, idxName);
-			}
+            for (int i = 0; i < 3; i++)
+            {
+                int idx = (int)stream.ReceiveNext();
+                string idxName = (string)stream.ReceiveNext();
+                weaponChange.LocalWeaponChange(idx, idxName);
+            }
 
             m_ReceivedNetworkUpdate = true;
         }
@@ -134,12 +133,12 @@ public class bl_PlayerSync : bl_PhotonHelper
     private Vector3 HeadPos = Vector3.zero;// Head Look to
     private Quaternion HeadRot = Quaternion.identity;
     private PlayerState m_state;
-	private PlayerWeaponState m_playerWeaponState;
+    private PlayerWeaponState m_playerWeaponState;
     private bool m_grounded;
     private string RemotePlayerName = string.Empty;
     private int weaponNum;
     private Vector3 NetVel;
-	private bool isAttack = false;
+    private bool isAttack = false;
 
     /// <summary>
     /// 
@@ -160,26 +159,22 @@ public class bl_PlayerSync : bl_PhotonHelper
         this.HeatTarget.position = Vector3.Lerp(this.HeatTarget.position, HeadPos, Time.deltaTime * this.SmoothingDelay);
         this.HeatTarget.rotation = HeadRot;
         m_PlayerAnimation.m_PlayerState = m_state;//send the state of player local for remote animation*/
-		m_PlayerAnimation.m_PlayerWeaponState = m_playerWeaponState;
+        m_PlayerAnimation.m_PlayerWeaponState = m_playerWeaponState;
         m_PlayerAnimation.grounded = m_grounded;
         m_PlayerAnimation.velocity = NetVel;
 
-		weaponChange.playerWeaponNum = weaponNum;
+        weaponChange.playerWeaponNum = weaponNum;
 
         if (this.gameObject.name != RemotePlayerName)
             gameObject.name = RemotePlayerName;
     }
 
-    /// <summary>
-    /// public method to send the RPC shot synchronization
-    /// </summary>
-    /// <param name="m_type"></param>
-    /// <param name="t_spread"></param>
-    public void IsFire(string m_type,float t_spread)
+
+    public void IsFire(string m_type, float t_spread)
     {
-        photonView.RPC("FireSync", PhotonTargets.Others, new object[] {m_type,t_spread});
+        photonView.RPC("FireSync", PhotonTargets.Others, new object[] { m_type, t_spread });
     }
-    
+
     void UpdatePosition()
     {
         if (m_PositionModel.SynchronizeEnabled == false || m_ReceivedNetworkUpdate == false)
@@ -209,6 +204,7 @@ public class bl_PlayerSync : bl_PhotonHelper
 
         transform.localScale = m_ScaleControl.GetScale(transform.localScale);
     }
+
     void DoDrawEstimatedPositionError()
     {
         Vector3 targetPosition = m_PositionControl.GetNetworkPosition();
@@ -217,17 +213,9 @@ public class bl_PlayerSync : bl_PhotonHelper
         Debug.DrawLine(transform.position, transform.position + Vector3.up, Color.green, 2f);
         Debug.DrawLine(targetPosition, targetPosition + Vector3.up, Color.red, 2f);
     }
-    /// <summary>
-    /// These values are synchronized to the remote objects if the interpolation mode
-    /// or the extrapolation mode SynchronizeValues is used. Your movement script should pass on
-    /// the current speed (in units/second) and turning speed (in angles/second) so the remote
-    /// object can use them to predict the objects movement.
-    /// </summary>
-    /// <param name="speed">The current movement vector of the object in units/second.</param>
-    /// <param name="turnSpeed">The current turn speed of the object in angles/second.</param>
+
     public void SetSynchronizedValues(Vector3 speed, float turnSpeed)
     {
         m_PositionControl.SetSynchronizedValues(speed, turnSpeed);
     }
-
 }
