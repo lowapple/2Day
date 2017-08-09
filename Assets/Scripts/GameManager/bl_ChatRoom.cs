@@ -4,12 +4,6 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class bl_ChatRoom : bl_PhotonHelper {
-
-    /// <summary>
-    /// This style use guiSkin because inputField Ugui cause
-    /// interference with other gui in playtime
-    /// </summary>
-    public GUISkin m_Skin;
     [Space(5)]
     public Text ChatText;
     public bool IsVisible = true;
@@ -40,9 +34,7 @@ public class bl_ChatRoom : bl_PhotonHelper {
         else if (isChat)
         {
             m_alpha = 10;
-        }
-
-        GUI.skin = m_Skin;     
+        }    
         if (!this.IsVisible || !PhotonNetwork.inRoom)
         {
             return;
