@@ -59,16 +59,12 @@ public class bl_GameController : bl_PhotonHelper {
         string logText = LocalName + " joined to game";
 		Debug.Log (logText);
     }
-    /// <summary>
-    /// 
-    /// </summary>
+
     void OnDisable()
     {
         isPlaying = false;
     }
-    /// <summary>
-    /// Get the spawnPoint
-    /// </summary>
+
     private int currentSpawnPoint = 0;
     private void GetSpawnPoint(out Vector3 position, out Quaternion rotation)
     {
@@ -146,11 +142,7 @@ public class bl_GameController : bl_PhotonHelper {
         }
         BlackBg.gameObject.SetActive(false);
     }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="t"></param>
-    /// <returns></returns>
+
     public IEnumerator FadeOut(float t)
     {
         if (BlackBg == null)
@@ -164,9 +156,7 @@ public class bl_GameController : bl_PhotonHelper {
             yield return null;
         }
     }
-    /// <summary>
-    /// 
-    /// </summary>
+
     public override void OnLeftRoom()
     {
         base.OnLeftRoom();
@@ -176,11 +166,7 @@ public class bl_GameController : bl_PhotonHelper {
         }
         bl_CoopUtils.LoadLevel(ReturnScene);
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="otherPlayer"></param>
+		
     public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
     {
         base.OnPhotonPlayerDisconnected(otherPlayer);
@@ -197,10 +183,6 @@ public class bl_GameController : bl_PhotonHelper {
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="newMasterClient"></param>
     public override void OnMasterClientSwitched(PhotonPlayer newMasterClient)
     {
         base.OnMasterClientSwitched(newMasterClient);
@@ -211,10 +193,6 @@ public class bl_GameController : bl_PhotonHelper {
         bl_EventHandler.OnLogMsnEvent(inf);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="info"></param>
     public override void OnPhotonInstantiate(PhotonMessageInfo info)
     {
         bl_EventHandler.OnPhotonInstantiate(info);

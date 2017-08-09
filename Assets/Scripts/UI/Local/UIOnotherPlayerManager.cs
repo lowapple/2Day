@@ -7,8 +7,11 @@ public class UIOnotherPlayerManager : MonoBehaviour
 {
 	public GridLayoutGroup gridLayoutGroup;
 	public GameObject playerStatusPrefab;
-	public List<UIOnotherPlayerState> uiPlayerStatus;
-	public List<PhotonPlayer> uiPlayers;
+
+	public GameObject background;
+
+	private List<UIOnotherPlayerState> uiPlayerStatus;
+	private List<PhotonPlayer> uiPlayers;
 
 	void Awake(){
 		uiPlayerStatus = new List<UIOnotherPlayerState> ();
@@ -16,6 +19,12 @@ public class UIOnotherPlayerManager : MonoBehaviour
 	}
 
 	public void UpdatePlayerStatus(PhotonPlayer[] players){
+		if (uiPlayerStatus.Count > 0) {
+			background.gameObject.SetActive (true);
+		} else {
+			background.gameObject.SetActive (false);
+		}
+
 		if (uiPlayerStatus.Count != players.Length - 1) {
 			// Player Length
 			if (uiPlayerStatus.Count > 0) {

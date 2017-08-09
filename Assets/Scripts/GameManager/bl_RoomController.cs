@@ -15,13 +15,6 @@ public class bl_RoomController : bl_PhotonHelper {
     public float UpdateListEach = 2f;
 	public UIOnotherPlayerManager uiOnotherPlayerManager;
 
-    [Separator("Ping Settings")]
-    public float UpdatePingEach = 5f;
-    /// <summary>
-    /// Max Ping to show message alert.
-    /// </summary>
-    public int MaxPing = 500;
-    public GameObject PingMsnUI;
     [Separator("References")]
     public GameObject PauseMenuUI;
 
@@ -38,9 +31,6 @@ public class bl_RoomController : bl_PhotonHelper {
     {
         Pause = false;
 		InvokeRepeating("UpdatePlayerStatus", 1, UpdateListEach);
-        InvokeRepeating("UpdatePing", 1, UpdatePingEach);
-        UpdatePing();
-		UpdatePlayerStatus();
     }
     /// <summary>
     /// 
@@ -97,44 +87,6 @@ public class bl_RoomController : bl_PhotonHelper {
             return;
 		
 		uiOnotherPlayerManager.UpdatePlayerStatus (PhotonNetwork.playerList);
-    }
-
-    /// <summary>
-    /// Update the player ping
-    /// verify the state of ping
-    /// </summary>
-    void UpdatePing()
-    {
-        //Get ping from cloud
-        int Ping = PhotonNetwork.GetPing();
-
-        //Send ping to other player can access or see it.
-        Hashtable PlayerPing = new Hashtable();
-        PlayerPing.Add("Ping", Ping);
-        PhotonNetwork.player.SetCustomProperties(PlayerPing);
-
-
-        if (PingMsnUI != null)
-        {
-            //If ping mayor that max ping allowed
-            if (Ping > MaxPing)
-            {
-                //Show alert mesagge
-                //NOTE: you can write here your code for kick player if you want
-                //when he has too ping.
-                if (!PingMsnUI.activeSelf)
-                {
-                    PingMsnUI.SetActive(true);
-                }
-            }
-            else
-            {
-                if (PingMsnUI.activeSelf)
-                {
-                    PingMsnUI.SetActive(false);
-                }
-            }
-        }
     }
 
     public void LeaveRoom() { PhotonNetwork.LeaveRoom(); }
