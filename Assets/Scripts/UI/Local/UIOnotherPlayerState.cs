@@ -5,20 +5,19 @@ using UnityEngine.UI;
 
 public class UIOnotherPlayerState : MonoBehaviour
 {
-    private PunPlayerStatus playerStatus;
-
     public Text playerName;
     public Text playerHealth;
 
-    void GetInfo(PhotonPlayer player)
+    public void GetInfo(PhotonPlayer player)
     {
-        playerStatus = player.GetStatus();
         playerName.text = player.NickName;
-    }
 
-    void Update()
-    {
-        playerHealth.text = (string)playerStatus.health;
+		var playerStatus = player.GetStatus ();
+
+		if (playerHealth == null)
+			Debug.Log ("Player Health null");
+
+		// playerHealth.text = (100).ToString ();
+		// playerHealth.text = ((int)playerStatus.health).ToString ();
     }
-    
 }
