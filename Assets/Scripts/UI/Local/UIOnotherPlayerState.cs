@@ -12,12 +12,13 @@ public class UIOnotherPlayerState : MonoBehaviour
     {
         playerName.text = player.NickName;
 
-		var playerStatus = player.GetStatus ();
-
-		if (playerHealth == null)
-			Debug.Log ("Player Health null");
-
-		// playerHealth.text = (100).ToString ();
-		// playerHealth.text = ((int)playerStatus.health).ToString ();
+		PunPlayerData playerStatus = player.GetStatus ();
+		if (playerStatus.health == -1) {
+			Debug.Log ("player status null");
+			player.SetStatus (100);
+			playerStatus = player.GetStatus ();
+		}
+			
+		playerHealth.text = playerStatus.health.ToString ();
     }
 }

@@ -12,7 +12,7 @@ public class bl_RoomController : bl_PhotonHelper {
     public KeyCode PlayerListKey = KeyCode.Tab;
     
 	[Separator("Player List")]
-    public float UpdateListEach = 5f;
+    public float UpdateListEach = 2f;
 	public UIOnotherPlayerManager uiOnotherPlayerManager;
 
     [Separator("Ping Settings")]
@@ -37,10 +37,10 @@ public class bl_RoomController : bl_PhotonHelper {
     void Start()
     {
         Pause = false;
-        InvokeRepeating("UpdatePlayerStatus", 1, UpdateListEach);
+		InvokeRepeating("UpdatePlayerStatus", 1, UpdateListEach);
         InvokeRepeating("UpdatePing", 1, UpdatePingEach);
         UpdatePing();
-        UpdatePlayerList();
+		UpdatePlayerStatus();
     }
     /// <summary>
     /// 
@@ -91,7 +91,7 @@ public class bl_RoomController : bl_PhotonHelper {
     /// <summary>
     /// 
     /// </summary>
-    public void UpdatePlayerList()
+    public void UpdatePlayerStatus()
     {
         if (!isConnected)
             return;

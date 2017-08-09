@@ -48,12 +48,8 @@ public class bl_PlayerSync : bl_PhotonHelper
             Destroy(this);
 
         if (!this.isMine)
-        {
             if (HeatTarget.gameObject.activeSelf == false)
-            {
                 HeatTarget.gameObject.SetActive(true);
-            }
-        }
 
         m_PositionControl = new PhotonTransformViewPositionControl(m_PositionModel);
         m_RotationControl = new PhotonTransformViewRotationControl(m_RotationModel);
@@ -83,7 +79,6 @@ public class bl_PlayerSync : bl_PhotonHelper
             stream.SendNext(Controller.m_PlayerAttackState);
             stream.SendNext(Controller.grounded);
             stream.SendNext(Controller.vel);
-
             stream.SendNext(weaponController.playerWeaponNum);
 
             if (attackController.isAttack)
@@ -114,7 +109,6 @@ public class bl_PlayerSync : bl_PhotonHelper
             m_grounded = (bool)stream.ReceiveNext();
             NetVel = (Vector3)stream.ReceiveNext();
             weaponNum = (int)stream.ReceiveNext();
-
             isAttack = (bool)stream.ReceiveNext();
             if (isAttack)
                 m_PlayerAnimation.AnimationAttack();

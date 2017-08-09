@@ -3,11 +3,14 @@ using UnityEngine;
 using System.Collections;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class PunPlayerStatus : bl_PhotonHelper
+public class PunPlayerStatus : MonoBehaviour
 {
     public const string PlayerStatusHealth = "statusHealth";
-    
-    public object health = 0;
+}
+
+public class PunPlayerData
+{
+	public int health;
 }
 
 public static class StatusExtensions
@@ -18,15 +21,21 @@ public static class StatusExtensions
     {
         Hashtable status = new Hashtable();
         status[PunPlayerStatus.PlayerStatusHealth] = newHealth;
-
         player.SetCustomProperties(status);
     }
 
-    public static PunPlayerStatus GetStatus(this PhotonPlayer player)
+	public static PunPlayerData GetStatus(this PhotonPlayer player)
     {
-        PunPlayerStatus playerStatus = new PunPlayerStatus();
+		PunPlayerData playerStatus = new PunPlayerData();
+		object health;
 
-        player.CustomProperties.TryGetValue(PunPlayerStatus.PlayerStatusHealth, out playerStatus.health);
-        return playerStatus;
+		if (player.CustomProperties.TryGetValue (PunPlayerStatus.PlayerStatusHealth, out health)) {
+			playerStatus.health = (int)health;
+		} else {
+			Debug.Log ("Player Status Health is null");
+			playerStatus.health = -1;
+		}
+       
+		return playerStatus;
     }
 }

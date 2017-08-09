@@ -50,9 +50,6 @@ public class bl_GameController : bl_PhotonHelper {
         m_Player = PhotonNetwork.Instantiate(PlayerPrefab.name,p,r, 0);
         m_ViewID = m_Player.GetViewID();
 
-		// Basic status initialize
-		PhotonNetwork.player.SetStatus (100);
-
         if (RoomCamera != null)
             RoomCamera.SetActive(false);
         bl_CoopUtils.LockCursor(true);
