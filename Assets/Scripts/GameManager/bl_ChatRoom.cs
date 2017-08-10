@@ -28,17 +28,11 @@ public class bl_ChatRoom : bl_PhotonHelper {
             return;
 
         if (m_alpha > 0.0f && !isChat)
-        {
             m_alpha -= Time.deltaTime / 2;
-        }
         else if (isChat)
-        {
             m_alpha = 10;
-        }    
         if (!this.IsVisible || !PhotonNetwork.inRoom)
-        {
             return;
-        }
 
         if (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.KeypadEnter || Event.current.keyCode == KeyCode.Return))
         {

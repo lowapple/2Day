@@ -12,10 +12,10 @@ public class UIOnotherPlayerState : MonoBehaviour
     {
         playerName.text = player.NickName;
 
-		PunPlayerData playerStatus = player.GetStatus ();
+		PunPlayerStateData playerStatus = player.GetStatus ();
 		if (playerStatus.health == -1) {
 			Debug.Log ("player status null");
-			player.SetStatus (100);
+			player.SetStatus (100, 0, "");
 			playerStatus = player.GetStatus ();
 		}
 			
