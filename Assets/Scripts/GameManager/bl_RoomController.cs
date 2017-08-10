@@ -9,7 +9,7 @@ public class bl_RoomController : bl_PhotonHelper {
     [Separator("Inputs")]
     public KeyCode PauseKey = KeyCode.Escape;
     public KeyCode PauseMenuKey = KeyCode.M;
-    public KeyCode PlayerListKey = KeyCode.Tab;
+    public KeyCode ShopKey = KeyCode.Tab;
     
 	[Separator("Player List")]
     public float UpdateListEach = 2f;
@@ -67,6 +67,15 @@ public class bl_RoomController : bl_PhotonHelper {
             Lock = true;
             bl_CoopUtils.LockCursor(Lock);
         }
+
+		// Playser Shop List
+		if (Input.GetKeyDown (ShopKey)) {
+			Lock = false;
+			bl_CoopUtils.LockCursor(Lock);
+		} else if (Input.GetKeyUp (ShopKey)) {
+			Lock = true;
+			bl_CoopUtils.LockCursor(Lock);
+		}
     }
 
     /// <summary>
