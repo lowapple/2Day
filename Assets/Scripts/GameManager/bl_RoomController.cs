@@ -21,6 +21,7 @@ public class bl_RoomController : bl_PhotonHelper {
     public static bool Pause = false;
     protected bool Lock = true;
     protected bool m_ShowPlayerList = false;
+	public UIStoreManager uiStoreManager;
 
     // private List<GameObject> CachePlayerList = new List<GameObject>();
 
@@ -30,6 +31,8 @@ public class bl_RoomController : bl_PhotonHelper {
     void Start()
     {
         Pause = false;
+		uiStoreManager.gameObject.SetActive (false);
+
 		InvokeRepeating("UpdatePlayerStatus", 1, UpdateListEach);
     }
     /// <summary>
@@ -70,11 +73,13 @@ public class bl_RoomController : bl_PhotonHelper {
 
 		// Playser Shop List
 		if (Input.GetKeyDown (ShopKey)) {
-			Lock = false;
-			bl_CoopUtils.LockCursor(Lock);
+			Pause = !Pause;
+			bl_CoopUtils.LockCursor(!Pause);
+			uiStoreManager.gameObject.SetActive (true);
 		} else if (Input.GetKeyUp (ShopKey)) {
-			Lock = true;
-			bl_CoopUtils.LockCursor(Lock);
+			Pause = !Pause;
+			bl_CoopUtils.LockCursor(!Pause);
+			uiStoreManager.gameObject.SetActive (false);
 		}
     }
 

@@ -15,6 +15,7 @@ public class bl_GameController : bl_PhotonHelper {
     [Space(7)]
     public GameObject RoomCamera = null;
     public Image BlackBg = null;
+
     void Awake()
     {
         if (!isConnected || PhotonNetwork.room == null)
