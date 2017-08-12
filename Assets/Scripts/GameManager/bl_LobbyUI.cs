@@ -24,6 +24,7 @@ public class bl_LobbyUI : bl_PhotonHelper
     public Text PhotonStatusText = null;
     public Text PhotonRegionText = null;
     public Image FadeImage = null;
+	public Image PreviewImage = null;
     public bl_PreScene PreScene = null;
     public InputField RoomNameInput = null;
     public InputField PlayerNameImput = null;
@@ -297,6 +298,8 @@ public class bl_LobbyUI : bl_PhotonHelper
                 }
             }
         }
+		// Image Selection
+		PreviewImage.sprite = Lobby.SceneManager [Lobby.CurrentScene].PreviewImage;
         MapPreviewImage.sprite = Lobby.SceneManager[Lobby.CurrentScene].PreviewImage;
         MapNameText.text = Lobby.SceneManager[Lobby.CurrentScene].MapName;
     }
